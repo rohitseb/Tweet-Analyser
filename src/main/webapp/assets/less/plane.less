@@ -1,0 +1,86 @@
+.scale (@scale) {
+   -webkit-transform: scale(@scale);
+   -moz-transform: scale(@scale);
+   -ms-transform: scale(@scale);
+   -o-transform: scale(@scale);
+   transform: scale(@scale);
+}
+
+.rotate3d(@x, @y, @z, @a) {
+			-moz-transform: rotate3d(@x, @y, @z, @a);
+			-webkit-transform: rotate3d(@x, @y, @z, @a);
+			transform: rotate3d(@x, @y, @z, @a);			
+}
+
+@propellerWidth: 57px;
+@planeWidth: 980px;
+@bannerWidth: 901px;
+
+html,body {
+	position:relative;
+	background:#77d0f9;
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+
+.cloud { position:absolute; }
+
+.planeInitialPosition {	right:0; }
+
+.direction.reverse {
+	  .rotate3d(0, 1, 0, 180deg);
+}
+
+.plane-elements {
+	.planeInitialPosition;
+	position: absolute;
+	z-index:5;
+	transform-origin: top left;
+	.scale(0.5);
+	
+	.element {
+		position: absolute;		
+	}
+	
+	.propeller {
+		background:url('http://andrewashley.co.nz/code-examples/Plane/res/propeller.png') top left no-repeat;
+		width:57px; height:223px;
+		top:72px;
+	}
+	
+	.plane {
+		background:url('http://andrewashley.co.nz/code-examples/Plane/res/plane.png') top left no-repeat;
+		width:@planeWidth; height:391px;
+		left:@propellerWidth;
+	}
+	
+	.banner {
+		background:url('http://andrewashley.co.nz/code-examples/Plane/res/banner-main.png') bottom left no-repeat;
+		width:901px; height:177px;
+		left:@planeWidth; top:20px;
+		z-index: 50;
+	}
+	
+	.banner-tip	{
+		background:url('http://andrewashley.co.nz/code-examples/Plane/res/banner-tip.png') center no-repeat;
+		width:132px; height:145px;
+		left:@planeWidth + @bannerWidth - 50; top:35px;
+		z-index: -50;
+	}
+	
+	.banner-text {
+		color:#fff;
+		font-size:6em;
+		font-style:italic;
+		padding:22px 50px;
+	}
+	
+	.reverse {
+		.banner-text {
+			.rotate3d(0, 1, 0, 180deg)
+		}
+	}
+}

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Guess What?</title>
+	<link rel="stylesheet" href="css/mycss.css">
+	  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link type="text/css" href="css/base.css" rel="stylesheet" />
+<link type="text/css" href="css/RGraph.css" rel="stylesheet" />
+
+<!--[if IE]><script language="javascript" type="text/javascript" src="../../Extras/excanvas.js"></script><![endif]-->
+
+<!-- JIT Library File -->
+<script language="javascript" type="text/javascript" src="javascript/jit.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>s
+<!-- Example File -->
+<script language="javascript" type="text/javascript" src="javascript/example1.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script  type="text/javascript" src="js/typeahead.bundle.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script  type="text/javascript" src="http://www.tutorialrepublic.com/examples/js/typeahead/0.11.1/typeahead.bundle.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// Defining the local dataset
+		var cars = ['Anand', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
+		
+		// Constructing the suggestion engine
+		var cars = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.whitespace,
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: cars
+		});
+		
+		// Initializing the typeahead
+		$('.typeahead').typeahead({
+			hint: true,
+			highlight: true, /* Enable substring highlighting */
+			minLength: 1 /* Specify minimum characters required for showing result */
+		},
+		{
+			name: 'cars',
+			source: cars
+		});
+	});  
+</script>
+	<script type="text/javascript">
+
+		window.twttr = (function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0],
+			t = window.twttr || {};
+		  if (d.getElementById(id)) return t;
+		  js = d.createElement(s);
+		  js.id = id;
+		  js.src = "https://platform.twitter.com/widgets.js";
+		  fjs.parentNode.insertBefore(js, fjs);
+
+		  t._e = [];
+		  t.ready = function(f) {
+			t._e.push(f);
+		  };
+
+		  return t;
+		}(document, "script", "twitter-wjs"));
+		
+				  
+		var set_tweet = 0;
+		var show_tweet = 1;
+		var timer;
+		var x;
+		var y;
+		
+		function showCoords(event) {
+			x = event.clientX;
+			y = event.clientY;
+		}
+		function display_setting(){
+
+			var settings_list = document.getElementById("div-Setting-list");
+			var setting_button = document.getElementById("img-settings");
+			if(settings_list.style.display == "block"){
+				settings_list.style.display = "none";
+				setting_button.src = "images/p2settings.png";
+			}
+			else{
+				settings_list.style.display = "block";
+				setting_button.src = "images/sel_p2settings.png";
+			}
+		}
+
+		function setting_icon(){
+			var settings_list = document.getElementById("div-Setting-list");
+			var setting_button = document.getElementById("img-settings");
+			var clust_val = document.getElementById("cluster-num-pad").value;
+			document.getElementById("cluster-num-disp").value = clust_val;
+			if(settings_list.style.display == "block"){
+				setting_button.src = "images/sel_p2settings.png";
+			}
+			else{
+				setting_button.src = "images/p2settings.png";
+			}
+			
+			
+		}
+		
+		function ClustValUpdate(){
+			var clust_val = document.getElementById("cluster-num-pad").value;
+			document.getElementById("cluster-num-disp").value = clust_val;
+			
+		}
+		
+/*		$("#div-list div").mouseenter(function() {
+			var div_val = this;
+			set_tweet = 0;
+			alert("came here");
+			var r = div_val.getBoundingClientRect();
+			var tweet_pad = document.getElementById("div-tweet-panel");
+
+			while (tweet_pad.hasChildNodes()) {
+				tweet_pad.removeChild(tweet_pad.lastChild);
+			}
+
+			var win_height = $(window).height();
+			twttr.widgets.createTweet(div_val.title,document.getElementById('div-tweet-panel'));
+			var time_delay = 200;
+			if(show_tweet==1){
+				timer = setTimeout(function() {
+						tweet_pad.style.display = "block";
+						if((r.top+tweet_pad.offsetHeight)<=win_height)
+						{
+							tweet_pad.style.top = r.top+'px';
+						}
+						else
+						{
+							var new_top = win_height-tweet_pad.offsetHeight;
+							tweet_pad.style.top = new_top+'px';
+						}
+				}, time_delay);
+			}
+		}).mouseleave(function() {
+			clearTimeout(timer);
+			var tweet_pad = document.getElementById("div-tweet-panel");
+			tweet_pad.style.display = "none";
+
+		});
+*/		
+		function display_tweettab(div_val){
+
+			set_tweet = 0;
+			var r = div_val.getBoundingClientRect();
+			var tweet_pad = document.getElementById("div-tweet-panel");
+			var div_list = document.getElementById("div-list");
+
+			while (tweet_pad.hasChildNodes()) {
+				tweet_pad.removeChild(tweet_pad.lastChild);
+			}
+
+			var win_height = $(window).height();
+			twttr.widgets.createTweet(div_val.title,document.getElementById('div-tweet-panel'));
+			var time_delay = 500;
+			if(show_tweet==1){
+				timer = setTimeout(function() {
+					var elementMouseIsOver = document.elementFromPoint(x, y);
+					if(elementMouseIsOver.id=="tweets"){	
+						tweet_pad.style.display = "block";
+						if((r.top+tweet_pad.offsetHeight)<=win_height)
+						{
+							tweet_pad.style.top = r.top+'px';
+						}
+						else
+						{
+							var new_top = win_height-tweet_pad.offsetHeight;
+							tweet_pad.style.top = new_top+'px';
+						}
+						var new_right = (div_list.offsetWidth+18);
+						tweet_pad.style.right = new_right+'px';
+					}
+				}, time_delay);
+			}
+
+		}	
+		
+		function Tweet_pad_disable(check_tweet){
+		
+			if(check_tweet.checked){
+				show_tweet = 1;
+			}
+			else{
+				tweet_disable();
+				show_tweet = 0;
+			}
+		
+		}
+		function click_test(div_val1){
+					var tweet_pad = document.getElementById("div-tweet-panel");
+					set_tweet = 1;
+
+		}
+		function tweet_disable(){
+			clearTimeout(timer);
+			var tweet_pad = document.getElementById("div-tweet-panel");
+			tweet_pad.style.display = "none";
+			 
+		}
+
+		function disable_tweettab(div_val){
+			var tweet_pad = document.getElementById("div-tweet-panel");
+			if(set_tweet==0)
+			{
+				tweet_pad.style.display = "none";
+				tweet_pad.style.top = (y_pos+100)+'px';
+			}
+		}
+		
+		function getQueryString(){
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1);			
+			document.getElementById('p2query').value = hashes.split("=")[1];
+			init(hashes.split("=")[1]);
+		}
+		function Getthedata(){
+			var text_box = document.getElementById("p2query");
+			if(text_box.value!=""){
+				init(text_box.value);
+			}
+		}
+		
+/*		function call_tweets(){
+
+			document.getElementById("tweet-tab").style.backgroundColor = "#AAA";
+			document.getElementById("summary-tab").style.backgroundColor = "#DDD";
+		
+			var tweet = ["It was very disappointing - we controlled the game. More from Zlatan Ibrahimovic: http://bit.ly/2fWXThq  #MUFC","#MUFC prepare for #EFLCup clash with West Ham","Post-match reaction from the #MUFC boss: http://bit.ly/2g8vWBH ","Hear what #MUFC defender Phil Jones had to say to #MUTVHD...","FT: Everton 1 #MUFC 1. Disappointment for the Reds as Zlatan's first-half strike is cancelled out by a late Baines penalty. #EVEMUN","80' - Still Everton 0 #MUFC 1 as we enter the final 10 minutes. #EVEMUN","Six goals in five games for @Ibra_official. ðŸ’ª #MUFC #EVEMUN","PIC: It was close, but goalline technology confirmed @Ibra_official's opener - his 12th goal of the season. #MUFC #EVEMUN","46' - Everton kick off the second half. Come on! #MUFC #EVEMUN","Pure class! #MUFC #EVEMUN","Keep it up, lads! #MUFC #EVEMUN","HT: Everton 0 #MUFC 1. @Ibra_official's lobbed finish, confirmed by the goalline technology, gives United the lead at the break. #EVEMUN"];
+			var tweetid = ["805499962566045697","804442739903516672","805488819873189888","805483572786143232","805469911027974144","805465992797229056","805460398455590913","805458439782723586","805457318506876928","805455007365603330","805455897287921665","805453417246322689"];
+			
+			var node = document.getElementById("div-tweet-summary-body");
+
+			while (node.hasChildNodes()) {
+				node.removeChild(node.lastChild);
+			}
+			
+			var i;
+			for(i = 0; i<tweet.length ;i++){
+				var div = document.createElement("div");
+				div.setAttribute("id", "tweets");
+				div.setAttribute("title", tweetid[i]);
+				div.setAttribute("onMouseOver", "display_tweettab(this)");
+				div.setAttribute("onMouseOut", "disable_tweettab()");
+				div.setAttribute("onclick", "click_test()");
+				div.innerHTML = tweet[i];
+				document.getElementById("div-tweet-summary-body").appendChild(div)
+			}
+		}
+*/		
+/*		function call_summary(){
+
+			document.getElementById("tweet-tab").style.backgroundColor = "#DDD";
+			document.getElementById("summary-tab").style.backgroundColor = "#AAA";
+		
+			var summ = "Manchester United Football Club is a professional football club based in Old Trafford, Greater Manchester, England, that competes in the Premier League, the top flight of English football.";
+
+			var node = document.getElementById("div-tweet-summary-body");
+
+			while (node.hasChildNodes()) {
+				node.removeChild(node.lastChild);
+			}
+
+			var div = document.createElement("div");
+			div.innerHTML = summ;
+			document.getElementById("div-tweet-summary-body").appendChild(div)
+			
+			
+		}
+*/
+	</script>
+</head>
+<body data-gr-c-s-loaded="true" onmousemove="showCoords(event)" onload="getQueryString()">
+	<div id="div-content-wrapper">
+	<div id="div-content-loader" >
+		<div id="div-contents"></div>
+	</div>
+	<div id="div-body" align="center">
+		<div id="div-graph" align="center" style="object-fit:contain">
+			<div id="center-container">
+				<div id="infovis"></div>    
+			</div>
+			<div id="div-tweet-panel" class="tweet-panel" align="center" onMouseOut="tweet_disable()">
+			</div>
+		</div>
+		<div id="div-list" class="tweet-list" align="right">
+			<div id="div-Setting-list" align="right">
+				<div id="div-cluster-num" align="center">
+					<div id="div-cluster-num-pad" align="center"><input type="range" id="cluster-num-pad" name="points" min="5" max="30" onchange="ClustValUpdate()"></div>
+					<div style="padding-bottom:5px;">Cluster # 
+						<input type="text" id="cluster-num-disp" style="width:10%; text-align:center;" disabled="true">
+					</div>
+				</div>
+				<div id="div-cluster-num" align="center">
+					<div id="div-tweet-disable" style="padding:5px;"> Tweet Pop-up :
+						 <input type="checkbox" id="tweet-check" checked onclick="Tweet_pad_disable(this)">
+					</div>
+				</div>
+
+			</div>
+			<div id="div-list-tab" align="center">
+				<div id="div-list-tab1" align="center">
+					<button id="tweet-tab" type="button" onclick="call_tweets()">Tweets</button>
+				</div>
+				<div id="div-list-tab2" align="center">
+					<button id="summary-tab" type="button" onclick="call_summary()">Summary</button>
+				</div>
+				<div id="div-tweet-summary-body" align="center" >
+				</div>
+			</div>
+
+	</div>
+	<div id="div-head" align="center">	
+		<div class="prod-name" style="float: left; padding:10px; height:100%;">
+			<img src="images/icon2.jpg" style="max-height:40px; border: 2px solid #ccc; border-radius:8px;">
+		</div>
+		<div id="div-search-box" >
+<!-- 			<input type="text" id="p2query" class="typeahead tt-query" name="p2query" placeholder=" search here..">-->
+				<input type="text" name="p2query" id="p2query" style="color:#000000;height:25px;width:99%;" placeholder=" search here..">
+		</div>
+		<div id="div-search-button" >
+			<input id="p2submit" type="image"  name="submit" src="images/p2search.png" style="height:25px;object-fit:contain;" border="0" alt="Sumbit" align="left" onclick="Getthedata()">
+		</div>
+		<div id="div-settings" align="center">
+			<button id="settings" type="button"><img id="img-settings" src="images/p2settings.png" alt="Settings" style="height:10%; object-fit:contain;"  onMouseOver="this.src='images/sel_p2settings.png'" onMouseOut="setting_icon()" width="100%" height="100%" onclick="display_setting()">
+			</button>
+		</div>
+	</div>
+	</div>
+
+	</div>
+</body>
+</html>
